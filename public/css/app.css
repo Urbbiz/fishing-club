@@ -10994,4 +10994,22 @@ a.text-dark:focus {
   margin-bottom: 0;
 }
 
+body {
+  background: linear-gradient(0deg, #22c2c3 0%, #b2b8b8 100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.card {
+  background: linear-gradient(0deg, #90ecec 0%, #def0f0 100%);
+}
+
+.navbar {
+  background: linear-gradient(0deg, #92cece 0%, #b2b8b8 100%);
+}
+
+.list-line {
+  background: linear-gradient(0deg, #d7f5f5 0%, #dde2e2 100%);
+}
+
 
