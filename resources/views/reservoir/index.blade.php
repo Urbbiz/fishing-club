@@ -8,13 +8,14 @@
             <div class="card-header">
                <h2>Reservoir List</h2>
                <a href="{{route('reservoir.index',['sort'=>'title'])}}">Sort by Title</a>
-               <a href="{{route('reservoir.index',['sort'=>'price'])}}">Sort by Price</a>
+               <a href="{{route('reservoir.index',['sort'=>'area'])}}">Sort by Area</a>
                <a href="{{route('reservoir.index')}}">Default</a>
             </div>
                <div class="card-body">
                 <ul class="list-group">
 
-                  @foreach ($reservoirs as $reservoir)
+                  @foreach ( $reservoirs as $reservoir) 
+                  {{-- @foreach ( $reservoirs = $reservoirs ->sortBy('area') as $reservoir) "toki darom, jeigu default reikia pagal kazka rusiuoti" --}}
                     <li class="list-group-item list-line">
                       <div>
                         <h4>{{$reservoir->title}}</h4>

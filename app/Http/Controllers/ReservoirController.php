@@ -9,6 +9,12 @@ use Validator;
 
 class ReservoirController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -17,33 +23,21 @@ class ReservoirController extends Controller
 
     public function index(Request $request)
     {
-       //FILTRAVIMAS
-        $reservoir_id = Member::all();
 
-        if($request->reservoir_id) {
-            $reservoirs = Reservoir::where('reservoir_id',$request->reservoir_id) ->get();
-            $filterBy = $request->reservoir_id;
+         // $member = $request->sort ? Member::orderBy('surname')->get() : Member::all();
+         if ('title' == $request->sort) {
+            $reservoirs = Reservoir::orderBy('title')->get();
+        }
+        elseif ('area' == $request->sort) {
+            $reservoirs = Reservoir::orderBy('area')->get();
         }
         else {
             $reservoirs = Reservoir::all();
+           
         }
-
-        // Rusiavimas SORT
-        if($request->sort && 'asc' == $request->sort) {
-            $reservoirs = $reservoirs ->sortBy('title');
-            $sortBy = 'asc';
-        }
-        elseif($request->sort && 'desc' == $request->sort) {
-            $reservoirs = $reservoirs ->sortByDesc('title');
-            $sortBy = 'desc';
-        }
-
-    return view('reservoir.index', [
-        'reservoirs' => $reservoirs, 
-        'reservoir_id' => $reservoir_id,
-        'filterBy'=>$filterBy ?? 0,
-        'sortBy' => $sortBy ?? ''
-        ]);
+        // $member = Member::all();
+        // $member = Member::orderBy('surname')->get();
+        return view('reservoir.index', ['reservoirs' => $reservoirs]);
     }
     // public function index()
     // {
@@ -73,8 +67,8 @@ class ReservoirController extends Controller
             $validator = Validator::make(
                 $request->all(),
                  [
-               'reservoir_title' => ['required', 'min:3', 'max:200'],
-               'reservoir_area' => ['required', 'numeric'],
+               'reservoir_title' => ['required','regex:/^[A-Z][a-zA-z\s\'\-]*[a-z]$/', 'min:3', 'max:150'],
+               'reservoir_area' => ['required', 'numeric', 'min:0','max:2000'],
                'reservoir_about' => ['required', 'min:3', 'max:400'],
                
                  ],
@@ -169,6 +163,11 @@ class ReservoirController extends Controller
      */
     public function destroy(Reservoir $reservoir)
     {
+
+        if($reservoir->reservoirMember->count() !==0){
+            // return 'Trinti negalima, nes turi knygų';
+            return redirect()->back()->with('info_message', 'Cannot delet resevoir, because it linked to member');
+        }
         $reservoir->delete();
         return redirect()->route('reservoir.index')->with('success_message', 'Reservoir deleted!');
     }

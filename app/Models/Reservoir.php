@@ -12,7 +12,8 @@ class Reservoir extends Model
 
     public function reservoirMember()   //--> funkcijos vardas bookAuthornieko nereiskia, pasirenkam i koki sugalvojam
     {
-        return $this->belongsTo(Member::class, 'reservoir_id', 'id');
+        return $this->hasMany('App\Models\Member', 'reservoir_id', 'id');
+        // return $this->belongsTo(Member::class, 'reservoir_id', 'id');
         //si knyga -> pagal autoriaus id priklauso autoriui, kurio id yra toks.
         
     }
