@@ -166,7 +166,7 @@ class ReservoirController extends Controller
 
         if($reservoir->reservoirMember->count() !==0){
             // return 'Trinti negalima, nes turi knygų';
-            return redirect()->back()->with('info_message', 'Cannot delet resevoir, because it linked to member');
+            return redirect()->back()->with('info_message', 'Cannot delete resevoir, because it linked to member');
         }
         $reservoir->delete();
         return redirect()->route('reservoir.index')->with('success_message', 'Reservoir deleted!');
